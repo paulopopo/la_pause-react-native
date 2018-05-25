@@ -14,7 +14,7 @@ import Routes from './src/routes';
 
 
 const wsLink = new WebSocketLink({
-    uri: `ws://${HOST}`,
+    uri: `wss://lapause-onwnwpqbon.now.sh/`,
     options: {
         reconnect: true,
     },
@@ -39,7 +39,7 @@ const link = split(
         return kind === 'OperationDefinition' && operation === 'subscription'
     },
     wsLink,
-    authLink.concat(createUploadLink({ uri: `${HOST}` })),
+    authLink.concat(createUploadLink({ uri: `https://lapause-onwnwpqbon.now.sh/` })),
 )
 
 // apollo client setup

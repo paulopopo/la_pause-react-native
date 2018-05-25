@@ -3,45 +3,45 @@ import {graphql, compose} from 'react-apollo'
 import {gql} from 'apollo-boost'
 import {FlatList, Text, View, StyleSheet, Button} from "react-native";
 
-
 const styles = StyleSheet.create({
     separator: {
-       marginTop : 5
+        marginTop: 5
     },
 });
 
-
 const Post = (props) => {
-    
+
     return <View>
-        <Text style={{ color : 'red', fontSize : 30 }}>{props.post.title}</Text>
-        <Text style={{ color : 'red', fontSize : 20 }}>{props.post.text}</Text>
-        
-        {props.post.likes ? (<Text> Like : {props.post.likes.map(elt => elt.name).join(' - ')}</Text>) : <Text> - </Text>}
-        
+        <Text style={{color: 'red', fontSize: 30}}>{props.post.title}</Text>
+        <Text style={{color: 'red', fontSize: 20}}>{props.post.text}</Text>
+
+        {props.post.likes ? (
+                <Text> Like : {props.post.likes.map(elt => elt.name).join(' - ')}</Text>) :
+            <Text> - </Text>}
+
         <Button title="Like" onPress={() => props.onLikeClick(props.post.id)}/>
     </View>
 }
 
 class Feed extends Component {
-    
+
     componentWillReceiveProps(nextProps) {
         if (this.props.location.key !== nextProps.location.key) {
             this.props.feedQuery.refetch()
         }
     }
-    
+
     componentDidMount() {
         this.props.subscribeToNewFeed()
     }
-    
+
     onLikeClick = (id) => {
         console.log("likePost", id);
         this.props.likePost({variables: {id}})
     }
-    
+
     render() {
-        
+
         if (this.props.feedQuery.loading) {
             return (
                 <Text> Is Loading</Text>
@@ -51,7 +51,7 @@ class Feed extends Component {
             key: elt.id,
             ...elt
         }))
-        
+
         return (
             <View
                 style={{
@@ -70,8 +70,12 @@ class Feed extends Component {
                         <Post post={item} onLikeClick={this.onLikeClick.bind(this)}/>
                     )}
                 />
-                <Button title="refresh" onPress={()=> this.props.history.push('/feed')} />
-                <Button title="log out" onPress={()=> this.props.history.push('/signup')} />
+                <Button style={{maringTop: 10}} title="refresh"
+                        onPress={() => this.props.history.push('/feed')}/>
+                <Button style={{maringTop: 10}} title="log out"
+                        onPress={() => this.props.history.push('/signup')}/>
+                <Button style={{maringTop: 10}} title="new Post"
+                        onPress={() => this.props.history.push('/newPost')}/>
             </View>
         )
     }
